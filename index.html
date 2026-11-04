@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cre8Learn Institute | PLD Arrays, File Handling and OOP (Pseudocode)</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f1e8;color:#1a1a1a;font:16px/1.65 Georgia,"Times New Roman",serif}
+.wrap{max-width:900px;margin:0 auto;background:#fffdf8;border-top:8px solid #2d7a3d;padding:34px 40px 50px}
+header{text-align:center;border-bottom:2px solid #1a1a1a;padding-bottom:18px;margin-bottom:24px}
+.brand{font:700 13px "Courier New",monospace;letter-spacing:4px;color:#2d7a3d}
+h1{font-size:27px;line-height:1.25;margin:8px 0 4px}
+.sub{color:#444;font-style:italic;margin:0}
+.by{margin:14px 0 0;font-size:14.5px}
+h2{font-size:21px;margin:40px 0 6px;padding:6px 12px;background:#2d7a3d;color:#fff;border-radius:3px}
+h3{font-size:17px;margin:26px 0 4px;color:#1f5a2c;border-bottom:1px solid #d9d3c0;padding-bottom:3px}
+p,li{max-width:72ch}
+.box{background:#fff;border:1px solid #ddd;border-left:4px solid #d4b85a;padding:12px 18px;margin:14px 0}
+.tip{border-left-color:#2d7a3d}
+.stop{border-left-color:#b3261e;background:#fff5f4}
+pre{background:#161d18;color:#d6efdf;padding:12px 16px;border-radius:4px;overflow-x:auto;font:13px/1.55 "Courier New",Courier,monospace;margin:8px 0 12px;white-space:pre}
+code{font:13px "Courier New",monospace;background:#eee9d9;padding:1px 5px;border-radius:3px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:480px;margin:8px 0 14px}
+th,td{border:1px solid #cfc9b5;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#ece7d4}
+details{background:#fff;border:1px solid #ddd;border-radius:4px;margin:10px 0;padding:10px 16px}
+summary{cursor:pointer;font-weight:bold}
+details[open] summary{margin-bottom:8px}
+footer{margin-top:44px;padding-top:16px;border-top:2px solid #1a1a1a;text-align:center;font:12px "Courier New",monospace;color:#555}
+@media(max-width:700px){.wrap{padding:22px 16px 40px}h1{font-size:22px}}
+@media print{body{background:#fff}.wrap{border:0;padding:0}pre{white-space:pre-wrap}h2{background:none;color:#000;border-bottom:2px solid #000}details{display:block}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="brand">CRE8LEARN INSTITUTE</div>
+<h1>Programming Logic and Design<br>Arrays, File Handling and OOP</h1>
+<p class="sub">A pseudocode study guide: no programming language needed</p>
+<p class="by"><b>Instructor:</b> Teboho Mpholo (Mr.), Founder and Lead Instructor</p>
+</header>
+
+<div class="box tip"><b>How to use this guide.</b> Read each topic, trace the worked example by hand with a pencil, then try the practice questions at the end before you open the answers. Marks go for correct logic, clear structure and indentation, not for matching one exact notation. If your lecturer uses different keywords, follow theirs, but stay consistent within an answer.</div>
+
+<h3>Pseudocode conventions used in this guide</h3>
+<div class="tw"><table>
+<tr><th>Idea</th><th>Notation</th></tr>
+<tr><td>Variables</td><td><code>DECLARE total AS INTEGER</code> and <code>SET total = 0</code></td></tr>
+<tr><td>Input, output</td><td><code>INPUT name</code>, <code>OUTPUT "Hello " + name</code></td></tr>
+<tr><td>Decisions</td><td><code>IF ... THEN ... ELSE ... ENDIF</code></td></tr>
+<tr><td>Loops</td><td><code>WHILE ... ENDWHILE</code>, <code>FOR i = 0 TO n - 1 ... ENDFOR</code> (add <code>STEP -1</code> to count down)</td></tr>
+<tr><td>Arrays</td><td><code>DECLARE marks[5] AS INTEGER</code>. <b>Indexes start at 0</b>, so the last index is size minus 1.</td></tr>
+<tr><td>Functions</td><td><code>FUNCTION name(x AS INTEGER) RETURNS INTEGER ... RETURN value ... ENDFUNCTION</code></td></tr>
+<tr><td>Comments</td><td><code>// text after two slashes</code></td></tr>
+</table></div>
+
+<h2>1. Arrays</h2>
+<p>An array stores several values of the <b>same type</b> under one name. Each value has an <b>index</b>. A loop is how you visit every element.</p>
+
+<h3>1.1 Declare, fill and display</h3>
+<pre>DECLARE marks[5] AS INTEGER
+FOR i = 0 TO 4
+  OUTPUT "Enter mark " + (i + 1)
+  INPUT marks[i]
+ENDFOR
+FOR i = 0 TO 4
+  OUTPUT marks[i]
+ENDFOR</pre>
+<p>With size 5 the valid indexes are 0, 1, 2, 3, 4. Using <code>marks[5]</code> is <b>out of bounds</b>, the most common array error.</p>
+
+<h3>1.2 The patterns you must know</h3>
+<pre>// Sum and average
+SET total = 0
+FOR i = 0 TO n - 1
+  SET total = total + marks[i]
+ENDFOR
+SET average = total / n
+
+// Largest value and its position
+SET largest = marks[0]
+SET pos = 0
+FOR i = 1 TO n - 1
+  IF marks[i] &gt; largest THEN
+    SET largest = marks[i]
+    SET pos = i
+  ENDIF
+ENDFOR
+
+// Linear search with a flag
+SET found = FALSE
+SET i = 0
+WHILE i &lt; n AND found = FALSE
+  IF marks[i] = target THEN
+    SET found = TRUE
+    SET pos = i
+  ENDIF
+  SET i = i + 1
+ENDWHILE
+IF found THEN OUTPUT "Found at " + pos ELSE OUTPUT "Not found" ENDIF</pre>
+<ul><li>Set <code>total = 0</code> <b>before</b> the loop, never inside it.</li>
+<li>Start <code>largest</code> from the first element, not from 0 (negative values would break it).</li>
+<li>Report "not found" <b>after</b> the loop, never inside it.</li></ul>
+
+<h3>1.3 Insert and delete (shifting elements)</h3>
+<p>An array has a fixed size, so you track how many slots are in use with <code>count</code>.</p>
+<pre>// Insert value at position pos (needs count &lt; size). Shift right, starting from the END.
+FOR i = count TO pos + 1 STEP -1
+  SET items[i] = items[i - 1]
+ENDFOR
+SET items[pos] = value
+SET count = count + 1
+
+// Delete the element at pos. Shift left, starting from pos.
+FOR i = pos TO count - 2
+  SET items[i] = items[i + 1]
+ENDFOR
+SET count = count - 1</pre>
+<p><b>Trace (delete):</b> items = [4, 7, 9, 3], count = 4, pos = 1. Pass i=1: items[1] = 9, giving [4, 9, 9, 3]. Pass i=2: items[2] = 3, giving [4, 9, 3, 3]. Then count = 3, so the live part is [4, 9, 3]. The stale last value is ignored because count is 3.</p>
+<p>Shifting in the wrong direction overwrites values you still need.</p>
+
+<h3>1.4 Parallel arrays and two-dimensional arrays</h3>
+<pre>// Parallel arrays: the same index describes the same person
+DECLARE names[4] AS STRING
+DECLARE marks[4] AS INTEGER
+SET best = 0
+FOR i = 1 TO 3
+  IF marks[i] &gt; marks[best] THEN SET best = i ENDIF
+ENDFOR
+OUTPUT names[best] + " has the highest mark: " + marks[best]
+
+// 2D array: 3 rows (students) by 4 columns (tests). Row totals:
+DECLARE scores[3][4] AS INTEGER
+FOR r = 0 TO 2
+  SET rowTotal = 0
+  FOR c = 0 TO 3
+    SET rowTotal = rowTotal + scores[r][c]
+  ENDFOR
+  OUTPUT "Student " + (r + 1) + " total: " + rowTotal
+ENDFOR</pre>
+<p>Reset <code>rowTotal</code> <b>inside</b> the outer loop but <b>before</b> the inner one, so every row starts from zero. The first index is the row, the second is the column.</p>
+
+<h3>1.5 Bubble sort (with a trace)</h3>
+<pre>FOR pass = 0 TO n - 2
+  FOR j = 0 TO n - 2 - pass
+    IF nums[j] &gt; nums[j + 1] THEN
+      SET temp = nums[j]
+      SET nums[j] = nums[j + 1]
+      SET nums[j + 1] = temp
+    ENDIF
+  ENDFOR
+ENDFOR</pre>
+<div class="tw"><table>
+<tr><th>pass</th><th>j</th><th>compare</th><th>swap?</th><th>array after</th></tr>
+<tr><td>0</td><td>0</td><td>5 and 2</td><td>yes</td><td>[2, 5, 4]</td></tr>
+<tr><td>0</td><td>1</td><td>5 and 4</td><td>yes</td><td>[2, 4, 5]</td></tr>
+<tr><td>1</td><td>0</td><td>2 and 4</td><td>no</td><td>[2, 4, 5]</td></tr></table></div>
+<p>Start: [5, 2, 4], n = 3. The three-line swap needs <code>temp</code>: without it, the first assignment destroys a value.</p>
+
+<h2>2. File handling</h2>
+<p>A <b>text file</b> stores data permanently, usually one record per line with fields separated by a delimiter such as a comma. A program must <b>open</b> a file, <b>read or write</b> it, then <b>close</b> it. Files used here: <code>marks.txt</code> with lines like <code>Naledi,72</code>.</p>
+<div class="tw"><table>
+<tr><th>Operation</th><th>Pseudocode</th><th>Notes</th></tr>
+<tr><td>Open to read</td><td><code>OPEN "marks.txt" FOR READ AS f</code></td><td>The file must already exist.</td></tr>
+<tr><td>Open to write</td><td><code>OPEN "out.txt" FOR WRITE AS f</code></td><td><b>Erases</b> existing content, or creates the file.</td></tr>
+<tr><td>Open to append</td><td><code>OPEN "log.txt" FOR APPEND AS f</code></td><td>Adds at the end, keeps old content.</td></tr>
+<tr><td>Read one line</td><td><code>READ line FROM f</code></td><td>Moves to the next line each time.</td></tr>
+<tr><td>Write one line</td><td><code>WRITE text TO f</code></td><td>Adds a line ending after the text.</td></tr>
+<tr><td>End of file test</td><td><code>EOF(f)</code></td><td>TRUE when there is nothing left to read.</td></tr>
+<tr><td>Does it exist?</td><td><code>FILE_EXISTS("marks.txt")</code></td><td>Check before reading.</td></tr>
+<tr><td>Close</td><td><code>CLOSE f</code></td><td>Always. Unclosed files can lose data.</td></tr>
+<tr><td>Split a line</td><td><code>SET parts = SPLIT(line, ",")</code></td><td>Gives an array: parts[0], parts[1] ...</td></tr>
+</table></div>
+
+<h3>2.1 Read a file into arrays</h3>
+<pre>IF NOT FILE_EXISTS("marks.txt") THEN
+  OUTPUT "File not found"
+  STOP
+ENDIF
+OPEN "marks.txt" FOR READ AS f
+SET count = 0
+WHILE NOT EOF(f)
+  READ line FROM f
+  IF line &lt;&gt; "" THEN                       // ignore a blank last line
+    SET parts = SPLIT(line, ",")
+    SET names[count] = parts[0]
+    SET marks[count] = TO_INTEGER(parts[1])    // file text must be converted to a number
+    SET count = count + 1
+  ENDIF
+ENDWHILE
+CLOSE f</pre>
+<p><b>Trace:</b> file lines "Naledi,72" and "Tumi,58". After line 1: names[0] = "Naledi", marks[0] = 72, count = 1. After line 2: names[1] = "Tumi", marks[1] = 58, count = 2. Everything read from a file is text, so convert numbers before calculating.</p>
+
+<h3>2.2 Write results to a file</h3>
+<pre>OPEN "report.txt" FOR WRITE AS out
+FOR i = 0 TO count - 1
+  IF marks[i] &gt;= 50 THEN SET result = "PASS" ELSE SET result = "FAIL" ENDIF
+  WRITE names[i] + "," + marks[i] + "," + result TO out
+ENDFOR
+CLOSE out</pre>
+<p>Use WRITE the first time, and <b>APPEND</b> when you want to add to existing records. Choosing WRITE by mistake wipes the file.</p>
+
+<h3>2.3 Update or delete one record</h3>
+<p>A sequential text file cannot be edited in the middle. The standard approach: <b>read all records into arrays, change them in memory, write the whole file back.</b></p>
+<pre>// Update the mark for a student
+INPUT searchName
+SET found = FALSE
+FOR i = 0 TO count - 1
+  IF names[i] = searchName THEN
+    INPUT marks[i]
+    SET found = TRUE
+  ENDIF
+ENDFOR
+IF found = FALSE THEN OUTPUT "Student not found" ENDIF
+
+// Save everything back
+OPEN "marks.txt" FOR WRITE AS f
+FOR i = 0 TO count - 1
+  WRITE names[i] + "," + marks[i] TO f
+ENDFOR
+CLOSE f</pre>
+<p>To <b>delete</b> a record, use the shift-left routine from 1.3 before saving, or skip that record while writing.</p>
+
+<div class="box stop"><b>Common file mistakes:</b> forgetting CLOSE; opening FOR WRITE when you meant APPEND; reading a file that does not exist; testing <code>WHILE EOF(f)</code> instead of <code>WHILE NOT EOF(f)</code>; forgetting to convert text to numbers; processing a blank last line as a record.</div>
+
+<h2>3. Object-oriented programming (OOP)</h2>
+<p>A <b>class</b> is a blueprint. An <b>object</b> is one thing built from it. A class bundles <b>attributes</b> (data) and <b>methods</b> (behaviour) together.</p>
+<div class="tw"><table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Encapsulation</td><td>Keep attributes <code>PRIVATE</code> and let other code change them only through methods that check the values.</td></tr>
+<tr><td>Constructor</td><td>A special method that runs when an object is created and sets its starting values.</td></tr>
+<tr><td>Getter, setter</td><td>Methods that read or change a private attribute.</td></tr>
+<tr><td>Inheritance</td><td>A child class gets the attributes and methods of a parent class and can add or change some.</td></tr>
+<tr><td>Polymorphism</td><td>Different classes respond to the same method name in their own way.</td></tr></table></div>
+
+<h3>3.1 A class with encapsulation</h3>
+<pre>CLASS BankAccount
+  PRIVATE accountNo AS STRING
+  PRIVATE balance AS REAL
+
+  CONSTRUCTOR(accNo AS STRING, opening AS REAL)
+    SET accountNo = accNo
+    IF opening &gt;= 0 THEN SET balance = opening ELSE SET balance = 0 ENDIF
+  ENDCONSTRUCTOR
+
+  METHOD deposit(amount AS REAL)
+    IF amount &gt; 0 THEN SET balance = balance + amount ENDIF
+  ENDMETHOD
+
+  METHOD withdraw(amount AS REAL) RETURNS BOOLEAN
+    IF amount &gt; 0 AND amount &lt;= balance THEN
+      SET balance = balance - amount
+      RETURN TRUE
+    ENDIF
+    RETURN FALSE
+  ENDMETHOD
+
+  METHOD getBalance() RETURNS REAL
+    RETURN balance
+  ENDMETHOD
+ENDCLASS
+
+// Using it
+SET acc = NEW BankAccount("A100", 500)
+acc.deposit(200)
+IF NOT acc.withdraw(900) THEN OUTPUT "Insufficient funds" ENDIF
+OUTPUT acc.getBalance()</pre>
+<p><b>Trace:</b> balance starts at 500, deposit 200 gives 700, the withdrawal of 900 is refused (900 is more than 700), so the output is "Insufficient funds" and then 700. Code outside the class cannot write <code>acc.balance = -1000</code> because it is private. That protection is the point of encapsulation.</p>
+
+<h3>3.2 Inheritance and polymorphism</h3>
+<pre>CLASS Shape
+  PROTECTED name AS STRING
+  CONSTRUCTOR(n AS STRING)
+    SET name = n
+  ENDCONSTRUCTOR
+  METHOD area() RETURNS REAL
+    RETURN 0
+  ENDMETHOD
+  METHOD describe()
+    OUTPUT name + " area: " + area()
+  ENDMETHOD
+ENDCLASS
+
+CLASS Circle INHERITS Shape
+  PRIVATE radius AS REAL
+  CONSTRUCTOR(r AS REAL)
+    SUPER("Circle")
+    SET radius = r
+  ENDCONSTRUCTOR
+  OVERRIDE METHOD area() RETURNS REAL
+    RETURN 3.14159 * radius * radius
+  ENDMETHOD
+ENDCLASS
+
+CLASS Rectangle INHERITS Shape
+  PRIVATE width AS REAL
+  PRIVATE height AS REAL
+  CONSTRUCTOR(w AS REAL, h AS REAL)
+    SUPER("Rectangle")
+    SET width = w
+    SET height = h
+  ENDCONSTRUCTOR
+  OVERRIDE METHOD area() RETURNS REAL
+    RETURN width * height
+  ENDMETHOD
+ENDCLASS
+
+DECLARE shapes[2] AS Shape
+SET shapes[0] = NEW Circle(2)
+SET shapes[1] = NEW Rectangle(3, 4)
+FOR i = 0 TO 1
+  shapes[i].describe()
+ENDFOR</pre>
+<p><b>Output:</b> "Circle area: 12.56636" then "Rectangle area: 12". The loop calls the same <code>describe()</code> on both, but each object uses its own <code>area()</code>: that is polymorphism. <code>SUPER(...)</code> calls the parent's constructor. <code>PROTECTED</code> means the child classes may use <code>name</code>, but outside code may not.</p>
+
+<h3>3.3 A class design box</h3>
+<pre>+-----------------------------+
+| Student                     |
++-----------------------------+
+| - name : STRING             |   - means PRIVATE
+| - mark : INTEGER            |   + means PUBLIC
++-----------------------------+
+| + Student(n, m)             |
+| + getName() : STRING        |
+| + getMark() : INTEGER       |
+| + grade() : STRING          |
++-----------------------------+</pre>
+<p>A class diagram has three boxes: the name, the attributes and the methods. Know how to turn one into pseudocode and back.</p>
+<div class="box stop"><b>Common OOP mistakes:</b> making attributes public; no validation in the constructor or setters; forgetting <code>NEW</code> when creating an object; calling a method without an object (<code>acc.deposit(5)</code>, not <code>deposit(5)</code>); confusing a class (the blueprint) with an object (one instance).</div>
+
+<h2>4. Putting all three together</h2>
+<p>A typical exam question: <i>"Read students from a file into an array of objects, find the student with the highest mark, and save a report."</i></p>
+<pre>CLASS Student
+  PRIVATE name AS STRING
+  PRIVATE mark AS INTEGER
+  CONSTRUCTOR(n AS STRING, m AS INTEGER)
+    SET name = n
+    SET mark = m
+  ENDCONSTRUCTOR
+  METHOD getName() RETURNS STRING
+    RETURN name
+  ENDMETHOD
+  METHOD getMark() RETURNS INTEGER
+    RETURN mark
+  ENDMETHOD
+  METHOD grade() RETURNS STRING
+    IF mark &gt;= 50 THEN RETURN "Pass" ENDIF
+    RETURN "Fail"
+  ENDMETHOD
+ENDCLASS
+
+DECLARE students[100] AS Student
+SET count = 0
+
+// 1. Load from file into objects
+OPEN "marks.txt" FOR READ AS f
+WHILE NOT EOF(f)
+  READ line FROM f
+  IF line &lt;&gt; "" THEN
+    SET parts = SPLIT(line, ",")
+    SET students[count] = NEW Student(parts[0], TO_INTEGER(parts[1]))
+    SET count = count + 1
+  ENDIF
+ENDWHILE
+CLOSE f
+
+// 2. Find the best student
+SET best = 0
+FOR i = 1 TO count - 1
+  IF students[i].getMark() &gt; students[best].getMark() THEN SET best = i ENDIF
+ENDFOR
+OUTPUT "Top student: " + students[best].getName()
+
+// 3. Save a report
+OPEN "report.txt" FOR WRITE AS out
+FOR i = 0 TO count - 1
+  WRITE students[i].getName() + "," + students[i].getMark() + "," + students[i].grade() TO out
+ENDFOR
+CLOSE out</pre>
+<p>Check yourself: the file is opened, read and <b>closed</b>; the array holds objects; private data is reached only through methods; the loop for the best student starts at 1 because the position 0 is the starting guess; and the check on count protects against an empty file (add <code>IF count = 0 THEN ... STOP</code> before step 2).</p>
+
+<h2>5. Practice questions</h2>
+<p>Try each on paper first. Tap a question to reveal the answer.</p>
+
+<details><summary>Q1. Trace this and state the output. (Arrays)</summary>
+<pre>SET nums = [3, 8, 2, 7]
+SET total = 0
+FOR i = 0 TO 3
+  IF nums[i] &gt; 2 THEN SET total = total + nums[i] ENDIF
+ENDFOR
+OUTPUT total</pre>
+<p><b>Answer:</b> 18. The values 3, 8 and 7 pass the test (3 + 8 + 7), and 2 is not greater than 2.</p></details>
+
+<details><summary>Q2. Count how many of 6 marks are above the average. (Arrays)</summary>
+<pre>SET total = 0
+FOR i = 0 TO 5
+  SET total = total + marks[i]
+ENDFOR
+SET average = total / 6
+SET countAbove = 0
+FOR i = 0 TO 5
+  IF marks[i] &gt; average THEN SET countAbove = countAbove + 1 ENDIF
+ENDFOR
+OUTPUT countAbove</pre>
+<p><b>Answer:</b> two separate passes are needed because the average is only known after the first loop.</p></details>
+
+<details><summary>Q3. Insert 5 at position 1 in [4, 7, 9, 3] where the array size is 6 and count is 4. (Arrays)</summary>
+<p><b>Answer:</b> shift right from the end: i=4 gives items[4] = items[3] = 3; i=3 gives items[3] = items[2] = 9; i=2 gives items[2] = items[1] = 7. Then items[1] = 5 and count = 5. Result [4, 5, 7, 9, 3].</p></details>
+
+<details><summary>Q4. What is the difference between opening a file FOR WRITE and FOR APPEND? (Files)</summary>
+<p><b>Answer:</b> WRITE erases any existing content (or creates a new file) and starts from the beginning. APPEND keeps the existing content and adds new lines at the end.</p></details>
+
+<details><summary>Q5. Find the two errors. (Files)</summary>
+<pre>OPEN "names.txt" FOR READ AS f
+SET count = 0
+WHILE EOF(f)
+  READ line FROM f
+  SET count = count + 1
+ENDWHILE</pre>
+<p><b>Answer:</b> (1) The condition is reversed: it must be <code>WHILE NOT EOF(f)</code>, otherwise the loop never runs. (2) There is no <code>CLOSE f</code> after the loop. A third improvement is to check <code>FILE_EXISTS</code> first.</p></details>
+
+<details><summary>Q6. Write pseudocode to append a line "Tumi,58" to marks.txt. (Files)</summary>
+<pre>OPEN "marks.txt" FOR APPEND AS f
+WRITE "Tumi,58" TO f
+CLOSE f</pre></details>
+
+<details><summary>Q7. Why should the balance attribute be PRIVATE? (OOP)</summary>
+<p><b>Answer:</b> so that no outside code can set it to an invalid value such as a negative number. Changes go through methods like deposit and withdraw, which check the rules first. This is encapsulation.</p></details>
+
+<details><summary>Q8. Write the methods grade() for a Student class that returns "Distinction" for 75 or more, "Pass" for 50 to 74, otherwise "Fail". (OOP)</summary>
+<pre>METHOD grade() RETURNS STRING
+  IF mark &gt;= 75 THEN
+    RETURN "Distinction"
+  ELSE IF mark &gt;= 50 THEN
+    RETURN "Pass"
+  ENDIF
+  RETURN "Fail"
+ENDMETHOD</pre></details>
+
+<details><summary>Q9. A Dog class and a Cat class both inherit from Animal, which has speak(). Explain how polymorphism applies. (OOP)</summary>
+<p><b>Answer:</b> each child class overrides speak() with its own behaviour (for example Dog says "Woof", Cat says "Meow"). A loop over an array of Animal objects can call speak() on each one, and every object responds according to its own class without the loop checking the type.</p></details>
+
+<details><summary>Q10. Outline an algorithm to load a file of products (name,price) into an array of Product objects and display the total value. (Combined)</summary>
+<p><b>Answer outline:</b> check the file exists; open FOR READ; loop WHILE NOT EOF reading each line; skip blank lines; SPLIT on the comma; convert the price with TO_INTEGER or TO_REAL; create <code>NEW Product(name, price)</code> and store it at <code>products[count]</code>; add 1 to count; CLOSE the file; then loop from 0 to count - 1 adding <code>products[i].getPrice()</code> to a total starting at 0; output the total.</p></details>
+
+<h3>Exam checklist</h3>
+<ul>
+<li>Say whether your arrays start at 0 or 1, and stay with it.</li>
+<li>Initialise every total, count and flag before the loop.</li>
+<li>Every OPEN has a matching CLOSE. Check the file exists before reading.</li>
+<li>Convert file text to numbers before you calculate.</li>
+<li>Keep attributes PRIVATE, validate in the constructor and the setters, and create objects with NEW.</li>
+<li>Indent consistently, and trace your answer on one small example before you submit.</li></ul>
+
+<footer>CRE8LEARN INSTITUTE | Programming Logic and Design | Arrays, File Handling and OOP<br>Teboho Mpholo (Mr.), Founder and Lead Instructor</footer>
+</div>
+</body>
+</html>
